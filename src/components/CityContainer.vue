@@ -1,36 +1,43 @@
 <template>
-  <div class="city-container border rounded py-4 px-3">
-    <div class="row" style="align-items: center; height: 32pt">
-      <div class="col">
-        <div class="city-name h3">{{ current.name }}</div>
-        <div class="muted">{{ currentDescription }}</div>
+  <div class="city-container">
+    <div class="current-container border rounded py-4 px-3">
+      <div class="row" style="align-items: center; height: 32pt">
+        <div class="col">
+          <div class="city-name h3">{{ current.name }}</div>
+          <div class="muted">{{ currentDescription }}</div>
+        </div>
+        <img
+          class="current-icon col-auto"
+          :src="weatherIconUrl(current.weather[0].icon)"
+          :alt="currentDescription"
+        >
+        <div class="current-temp h1 col-auto">
+          {{ formatTemp(current.main.temp) }}
+        </div>
       </div>
-      <img
-        class="current-icon col-auto"
-        :src="weatherIconUrl(current.weather[0].icon)"
-        :alt="currentDescription"
-      >
-      <div class="current-temp h1 col-auto">
-        {{ formatTemp(current.main.temp) }}
+      <div class="row mt-5" style="align-items: end">
+        <div class="col">
+          <div class="h4">{{ formatDate((current.dt)*1000) }}</div>
+          <div class="muted">{{ formatTime((current.dt)*1000) }}</div>
+        </div>
+        <div class="col-auto muted" style="text-align: right">
+          <div>Wind: {{ current.wind.speed }} m/s</div>
+          <div>Humidity: {{ current.main.humidity }} %</div>
+          <div v-if="current.rain">Precipitation (3 h): {{ current.rain['rain.3h'] }} mm</div>
+          <div v-else-if="current.snow">Precipitation (3 h): {{ current.snow['snow.3h'] }} mm</div>
+          <div v-else>Precipitation (3 h): 0 mm</div>
+        </div>
       </div>
     </div>
-    <div class="row mt-5" style="align-items: end">
-      <div class="col">
-        <div class="h4">May 2nd</div>
-        <div class="muted">11:53</div>
-      </div>
-      <div class="col-auto muted" style="text-align: right">
-        <div>Wind: {{ current.wind.speed }} m/s</div>
-        <div>Humidity: {{ current.main.humidity }} %</div>
-        <div v-if="current.rain">Precipitation (3 h): {{ current.rain['rain.3h'] }} mm</div>
-        <div v-else-if="current.snow">Precipitation (3 h): {{ current.snow['snow.3h'] }} mm</div>
-        <div v-else>Precipitation (3 h): 0 mm</div>
-      </div>
+    <div class="forecast-container">
+
     </div>
   </div>
 </template>
 
 <script>
+import { format as dateFnsFormat } from 'date-fns'
+
 export default {
   name: "CityContainer",
   props: {
@@ -52,7 +59,10 @@ export default {
       return `${Math.round(temp)} °C`
     },
     formatDate: function(time) {
-      const date = new Date(time)
+      return dateFnsFormat(new Date(time), 'LLL do')
+    },
+    formatTime: function(time) {
+      return dateFnsFormat(new Date(time), 'HH:mm')
     },
     weatherIconUrl: function(icon) {
       return `http://openweathermap.org/img/wn/${icon}@2x.png`
@@ -62,7 +72,7 @@ export default {
 </script>
 
 <style scoped>
-  .city-container {
+  .current-container {
     background-color: #ffffff;
   }
   .current-icon {
