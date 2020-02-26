@@ -1,12 +1,14 @@
 <template>
   <div class="card text-center row">
     <div class="card-body col-auto border-top border-left border-right rounded">
-      <div class="muted px-2 pt-3">
+      <div class="muted pt-3">
         {{ forecast.time }}
       </div>
-      <div>
-        <img :src="forecast.iconUrl" class="mw-100">
-      </div>
+      <img
+        :src="forecast.iconUrl"
+        :alt="forecast.description"
+        class="d-block mw-100 mx-auto"
+      >
       <div class="h4 pb-3">
         {{ forecast.temperature }}
       </div>

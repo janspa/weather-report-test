@@ -1,7 +1,7 @@
 <template>
   <div class="city-container">
-    <div class="weather-container border rounded py-4 px-3">
-      <div class="row" style="align-items: center; height: 32pt">
+    <div class="weather-container border rounded py-4 px-4">
+      <div class="weather-top-row row">
         <div class="col">
           <div class="city-name h3">
             {{ weather.cityName }}
@@ -19,7 +19,7 @@
           {{ weather.temperature }}
         </div>
       </div>
-      <div class="row mt-5" style="align-items: end">
+      <div class="weather-bottom-row row mt-5">
         <div class="col">
           <div class="h4">
             {{ weather.date }}
@@ -63,7 +63,17 @@ export default {
   .weather-container {
     background-color: #ffffff;
   }
+  .weather-top-row {
+    align-items: center;
+    /* the icons have lots of empty space, so set a defined row height rather than rely on the icons for the margins */
+    height: 40pt;
+  }
   .weather-icon {
-    /*max-height: 100%;*/
+    /* would use this if the icons were more tightly cropped */
+    /* max-height: 100%; */
+    flex-shrink: 1;
+  }
+  .weather-bottom-row {
+    align-items: end;
   }
 </style>
