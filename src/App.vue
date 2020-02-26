@@ -58,14 +58,18 @@ export default {
     }
   },
   watch: {
-    selectedCityOption: function(value) {
+    selectedCityOption: function(option) {
       this.error = null
-      this.fetchWeatherData()
+      this.fetchWeatherData(option)
     },
   },
+  mounted() {
+    // fetch initial update
+    this.fetchWeatherData(this.selectedCityOption)
+  },
   methods: {
-    fetchWeatherData() {
-      const cities = this.selectedCityOption === '*' ? Array.from(this.cityOptions.keys()) : [parseInt(value)]
+    fetchWeatherData(option) {
+      const cities = option === '*' ? Array.from(this.cityOptions.keys()) : [parseInt(option)]
       Promise.all(cities.map(id => {
         return WeatherService.fetchCurrentWeatherById(id)
           .then(weather => {
@@ -82,15 +86,11 @@ export default {
           this.weatherMap = new Map(values)
         })
         .catch(err => {
-          console.error(err)
+          //console.error(err)
           this.error = err
         })
     },
   },
-  mounted() {
-    // fetch initial update
-    this.fetchWeatherData()
-  }
 }
 </script>
 
