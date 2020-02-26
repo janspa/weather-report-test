@@ -40,7 +40,7 @@
         v-for="(item, index) of forecasts"
         :key="`forecast-${weather.id}-${index}`"
         :forecast="item"
-        class="col mr-2"
+        :class="['col', (index > 0 ? 'ml-2' : '')].join(' ')"
       />
     </div>
   </div>

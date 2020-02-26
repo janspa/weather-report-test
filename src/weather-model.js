@@ -2,12 +2,12 @@ import {format as dateFnsFormat} from "date-fns"
 
 export default class WeatherModel {
   constructor(data) {
+    // naive data sanity check
     if (!Array.isArray(data.weather) || data.weather.length === 0 || !data.main) {
-      // naive data sanity check
-      console.log(data)
       throw new Error("Incorrect weather data")
     }
     this._data = data
+    this._primaryWeather = this._data.weather[0]
   }
 
   get cityName() {
@@ -17,7 +17,7 @@ export default class WeatherModel {
     this._data.name = name
   }
   get description() {
-    const desc = this._data.weather[0].description
+    const desc = this._primaryWeather.description
     return desc.slice(0, 1).toUpperCase() + desc.slice(1)
   }
   get temperature() {
@@ -30,7 +30,7 @@ export default class WeatherModel {
     return dateFnsFormat(new Date(this._data.dt*1000), 'HH:mm')
   }
   get iconUrl() {
-    return `http://openweathermap.org/img/wn/${this._data.weather[0].icon}@2x.png`
+    return `http://openweathermap.org/img/wn/${this._primaryWeather.icon}@2x.png`
   }
   get windSpeed() {
     return `${Math.round(this._data.wind.speed)} m/s`

@@ -3,7 +3,7 @@
     <header class="border-bottom h2 py-3">
       <span>Säätutka</span>
     </header>
-    <div id="content" class="p-3">
+    <div id="content" class="p-3 mx-2">
       <select
         v-model="selectedCityOption"
         class="rounded d-block w-100 py-3"
